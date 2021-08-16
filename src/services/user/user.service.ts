@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserRegisterDto } from 'src/dtos/userRegister.dto';
+import { RegisterUserDto } from 'src/dtos/registerUser.dto';
 import { User } from 'src/entities/user.entity';
 import { Repository } from 'typeorm';
 
@@ -15,7 +15,7 @@ export class UserService {
     return user;
   }
 
-  async createUser(user: UserRegisterDto) {
+  async createUser(user: RegisterUserDto) {
     try {
       return await this.userRepository.save(user);
     } catch (e) {}
