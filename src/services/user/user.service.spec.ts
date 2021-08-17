@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getRepositoryToken } from '@nestjs/typeorm';
-import { User } from 'src/entities/user.entity';
+import { User } from '../../entities/user.entity';
 import { UserService } from './user.service';
 
 describe('Test UserService', () => {
@@ -53,7 +53,7 @@ describe('Test UserService', () => {
 
   it('Should find user and return it', async () => {
     const id = 1;
-    const user = await service.findUser(1);
+    const user = (await service.findUser(1)) as { email: string; id: number };
 
     expect('test@gmail.com').toEqual(user.email);
     expect(user.id).toEqual(id);
