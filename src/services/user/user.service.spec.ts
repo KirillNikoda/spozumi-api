@@ -53,7 +53,7 @@ describe('Test UserService', () => {
 
   it('Should find user and return it', async () => {
     const id = 1;
-    const user = (await service.findUser(1)) as { email: string; id: number };
+    const user = await service.findUser(1);
 
     expect('test@gmail.com').toEqual(user.email);
     expect(user.id).toEqual(id);

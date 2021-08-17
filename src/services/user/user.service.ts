@@ -53,7 +53,6 @@ export class UserService {
     }
   }
 
-
   public async createUser(user: RegisterUserDto): Promise<Partial<User>> {
     try {
       return await this.userRepository.save(user);
@@ -61,20 +60,14 @@ export class UserService {
   }
 
   public async findUser(id: number) {
-    try {
-      const user = await this.userRepository.findOne(id, {
-        select: ['id', 'email']
-      });
-      if (!user) {
-        return new NotFoundException('User does not exist').getResponse();
-      }
-      console.log(user);
-
-      return user;
-    } catch (e) {
-      throw new InternalServerErrorException(
-        'Error while querying a user by id'
-      );
+    const user = await this.userRepository.findOne(id, {
+      select: ['id', 'email']
+    });
+    if (!user) {
+      throw new NotFoundException('User does not exist').getResponse();
     }
+    console.log(user);
+
+    return user;
   }
 }

@@ -1,4 +1,9 @@
-import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  UnauthorizedException
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 import { User } from 'src/entities/user.entity';
@@ -18,7 +23,7 @@ export class JwtAuthGuard implements CanActivate {
     const token = request.headers['authorization'].split(' ')[1];
 
     if (!token) {
-      return false;
+      throw new UnauthorizedException('You are not authorized');
     }
     console.log(token);
 
@@ -28,7 +33,7 @@ export class JwtAuthGuard implements CanActivate {
     console.log(decoded);
 
     if (+request.params.id !== decoded.sub) {
-      return false;
+      throw new UnauthorizedException('You are not authorized');
     }
 
     const userRepository = getRepository(User);

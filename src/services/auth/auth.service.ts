@@ -9,12 +9,26 @@ import { LoginUserDto } from 'src/dtos/loginUser.dto';
 import { UserService } from '../user/user.service';
 import { RegisterUserDto } from 'src/dtos/registerUser.dto';
 import * as bcrypt from 'bcrypt';
+import { User } from 'src/entities/user.entity';
 @Injectable()
 export class AuthService {
   constructor(
     private userService: UserService,
     private jwtService: JwtService
   ) {}
+
+  public async getMe(token: string): Promise<User> {
+    const splittedToken = token.split(' ')[1];
+    const decoded = this.jwtService.decode(splittedToken);
+    if (!decoded) {
+      throw new UnauthorizedException('You are not authorized');
+    }
+
+    const user = await this.userService.findUser(decoded.sub);
+    console.log(user);
+
+    return user;
+  }
 
   public async register(user: RegisterUserDto) {
     const { email, password } = user;
