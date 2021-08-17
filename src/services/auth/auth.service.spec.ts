@@ -1,6 +1,6 @@
 import { JwtService } from '@nestjs/jwt';
 import { Test, TestingModule } from '@nestjs/testing';
-import { LoginUserDto } from 'src/dtos/loginUser.dto';
+import { LoginUserDto } from '../../dtos/loginUser.dto';
 import { UserService } from '../user/user.service';
 import { AuthService } from './auth.service';
 import * as bcrypt from 'bcrypt';

@@ -28,7 +28,10 @@ describe('Test UserController', () => {
 
   it('Should find user by id', async () => {
     const userToFind = { id: 1, email: 'test@gmail.com' };
-    const founded = await controller.getUser(userToFind.id);
+    const founded = (await controller.getUser(userToFind.id)) as {
+      email: string;
+      id: number;
+    };
     expect(userToFind.email).toEqual(founded.email);
     expect(userToFind.id).toEqual(founded.id);
   });
