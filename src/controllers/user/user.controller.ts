@@ -26,8 +26,7 @@ export class UserController {
 
   @UseGuards(JwtAuthGuard)
   @Get(':id')
-  public async getUser(@Param('id', ParseIntPipe) id: number, @Request() req) {
-    console.log('hello', req.user);
+  public async getUser(@Param('id', ParseIntPipe) id: number) {
     return this.userService.findUser(id);
   }
 
