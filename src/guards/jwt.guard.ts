@@ -20,13 +20,13 @@ export class JwtAuthGuard implements CanActivate {
   }
 
   private async validateRequest(request: any) {
-    const token = request.headers['authorization'].split(' ')[1];
+    let token = request.headers['authorization'];
 
     if (!token) {
       throw new UnauthorizedException('You are not authorized');
     }
-    console.log(token);
 
+    token = token.split(' ')[1];
     const jwtService = new JwtService({ secret: configService.getJwtSecret() });
 
     const decoded = jwtService.decode(token);
