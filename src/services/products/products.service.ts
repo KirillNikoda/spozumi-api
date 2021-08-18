@@ -16,6 +16,18 @@ export class ProductsService {
     @InjectRepository(Product) private productRepository: Repository<Product>
   ) {}
 
+  public async getProducts(): Promise<Product[]> {
+    try {
+      return await this.productRepository.find({
+        relations: ['category', 'brand']
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(
+        'Error while querying all products'
+      );
+    }
+  }
+
   public async getProduct(id: number): Promise<Product> {
     const product = await this.productRepository.findOne(id, {
       relations: ['category', 'brand']
