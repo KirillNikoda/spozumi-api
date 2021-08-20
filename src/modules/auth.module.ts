@@ -5,6 +5,8 @@ import { UserModule } from 'src/modules/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { configService } from 'src/services/config/config.service';
 import { JwtStrategy } from 'src/strategies/jwt.strategy';
+import { CategoriesModule } from './categories/categories.module';
+import { BrandsModule } from './brands/brands.module';
 
 @Module({
   providers: [AuthService, JwtStrategy],
@@ -14,7 +16,9 @@ import { JwtStrategy } from 'src/strategies/jwt.strategy';
     JwtModule.register({
       secret: configService.getJwtSecret(),
       signOptions: { expiresIn: 60 * 60 + 's' }
-    })
+    }),
+    CategoriesModule,
+    BrandsModule
   ]
 })
 export class AuthModule {}
