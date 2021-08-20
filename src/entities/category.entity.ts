@@ -1,7 +1,7 @@
 import {
   Column,
   Entity,
-  ManyToOne,
+  ManyToMany,
   OneToMany,
   PrimaryGeneratedColumn
 } from 'typeorm';
@@ -16,9 +16,9 @@ export class Category {
   @OneToMany(() => Product, (product) => product.category)
   products: Product[];
 
-  @ManyToOne(() => Brand, (brand) => brand.categories, { onDelete: 'CASCADE' })
-  brand: Brand;
+  @ManyToMany(() => Brand, (brand) => brand.categories)
+  brands: Brand[];
 
-  @Column()
+  @Column({ unique: true })
   categoryName: string;
 }

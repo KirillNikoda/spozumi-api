@@ -8,8 +8,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from 'src/dtos/createProduct.dto';
 import { ProductsFilterDto } from 'src/dtos/productsFilter.dto';
 import { UpdateProductDto } from 'src/dtos/updateProduct.dto';
-import { Brand } from 'src/entities/brand.entity';
-import { Category } from 'src/entities/category.entity';
+
 import { Product } from 'src/entities/product.entity';
 import { ProductsRepository } from 'src/repositories/products.repository';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
@@ -18,11 +17,7 @@ import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 export class ProductsService {
   constructor(
     @InjectRepository(ProductsRepository)
-    private productRepository: ProductsRepository,
-    @InjectRepository(Category)
-    private categoryRepository: Repository<Category>,
-    @InjectRepository(Brand)
-    private brandRepository: Repository<Brand>
+    private productRepository: ProductsRepository
   ) {}
 
   public async getProducts(filterDto: ProductsFilterDto): Promise<Product[]> {
@@ -55,18 +50,6 @@ export class ProductsService {
     if (productExists) {
       throw new BadRequestException('Product with that name already exists');
     }
-
-    const [brand, category] = await Promise.all([
-      this.brandRepository.findOne({
-        brandName: String(product.brand)
-      }),
-      this.categoryRepository.findOne({
-        categoryName: String(product.category)
-      })
-    ]);
-
-    product.category = category;
-    product.brand = brand;
 
     const createdProduct = await this.productRepository.save(product);
 

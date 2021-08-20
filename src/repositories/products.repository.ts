@@ -5,19 +5,23 @@ import { EntityRepository, Repository } from 'typeorm';
 @EntityRepository(Product)
 export class ProductsRepository extends Repository<Product> {
   public async getProducts(filterDto: ProductsFilterDto): Promise<Product[]> {
+    console.log(filterDto);
+
     const { category, brand, color, price } = filterDto;
     const query = this.createQueryBuilder('product');
 
     await query
-      .leftJoin('product.category', 'category')
-      .leftJoin('product.brand', 'brand');
+      .leftJoinAndSelect('product.category', 'category')
+      .leftJoinAndSelect('product.brand', 'brand');
 
     if (category) {
-      query.andWhere('product.category.categoryName = :category', { category });
+      console.log('hello world');
+
+      query.andWhere('category.categoryName = :category', { category });
     }
 
     if (brand) {
-      query.andWhere('product.brand.brandName = :brand', { brand });
+      query.andWhere('product.brandName = :brand', { brand });
     }
 
     if (color) {
@@ -25,12 +29,10 @@ export class ProductsRepository extends Repository<Product> {
     }
 
     if (price) {
-      query.andWhere('product.color = :color', { color });
+      query.andWhere('product.price = :price', { price });
     }
 
     const products = await query.getMany();
-
-    console.log(products);
 
     return products;
   }

@@ -30,7 +30,6 @@ export class ProductsController {
     return this.productsService.getProducts(productsFilter);
   }
 
-  @UseGuards(AdminGuard)
   @Post()
   public async createProduct(@Body() product: CreateProductDto) {
     return this.productsService.createProduct(product);
