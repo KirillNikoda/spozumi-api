@@ -32,8 +32,10 @@ export class AuthService {
 
   public async register(user: RegisterUserDto) {
     const { email, password } = user;
+    console.log(email, password);
 
     const validatedUser = await this.userService.validateUser(email);
+    console.log(validatedUser);
 
     if (validatedUser) {
       throw new BadRequestException('User with that email already exists.');
@@ -43,10 +45,7 @@ export class AuthService {
     const hashedPassword = await bcrypt.hash(password, saltRounds);
     user.password = hashedPassword;
     const createdUser = await this.userService.createUser(user);
-    return {
-      id: createdUser.id,
-      email: createdUser.email
-    };
+    return createdUser;
   }
 
   public async login(user: LoginUserDto) {

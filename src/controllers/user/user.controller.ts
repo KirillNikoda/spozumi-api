@@ -7,8 +7,6 @@ import {
   Param,
   ParseIntPipe,
   Put,
-  Request,
-  UnauthorizedException,
   UseGuards
 } from '@nestjs/common';
 import { UpdateUserDto } from 'src/dtos/updateUser.dto';

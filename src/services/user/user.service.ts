@@ -55,6 +55,8 @@ export class UserService {
 
   public async createUser(user: RegisterUserDto): Promise<Partial<User>> {
     try {
+      console.log('test');
+
       return await this.userRepository.save(user);
     } catch (e) {}
   }
