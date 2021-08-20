@@ -4,6 +4,9 @@
 
 *.env
 
+# db config
+ormconfig.json
+
 # Logs
 logs
 *.log
