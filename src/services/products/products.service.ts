@@ -6,28 +6,28 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateProductDto } from 'src/dtos/createProduct.dto';
+import { ProductsFilterDto } from 'src/dtos/productsFilter.dto';
 import { UpdateProductDto } from 'src/dtos/updateProduct.dto';
 import { Brand } from 'src/entities/brand.entity';
 import { Category } from 'src/entities/category.entity';
 import { Product } from 'src/entities/product.entity';
+import { ProductsRepository } from 'src/repositories/products.repository';
 import { DeleteResult, Repository, UpdateResult } from 'typeorm';
 
 @Injectable()
 export class ProductsService {
   constructor(
-    @InjectRepository(Product)
-    private productRepository: Repository<Product>,
+    @InjectRepository(ProductsRepository)
+    private productRepository: ProductsRepository,
     @InjectRepository(Category)
     private categoryRepository: Repository<Category>,
     @InjectRepository(Brand)
     private brandRepository: Repository<Brand>
   ) {}
 
-  public async getProducts(): Promise<Product[]> {
+  public async getProducts(filterDto: ProductsFilterDto): Promise<Product[]> {
     try {
-      return await this.productRepository.find({
-        relations: ['category', 'brand']
-      });
+      return await this.productRepository.getProducts(filterDto);
     } catch (e) {
       throw new InternalServerErrorException(
         'Error while querying all products'

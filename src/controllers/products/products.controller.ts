@@ -7,9 +7,11 @@ import {
   ParseIntPipe,
   Post,
   Put,
+  Query,
   UseGuards
 } from '@nestjs/common';
 import { CreateProductDto } from 'src/dtos/createProduct.dto';
+import { ProductsFilterDto } from 'src/dtos/productsFilter.dto';
 import { UpdateProductDto } from 'src/dtos/updateProduct.dto';
 import { AdminGuard } from 'src/guards/admin.guard';
 import { ProductsService } from 'src/services/products/products.service';
@@ -24,8 +26,8 @@ export class ProductsController {
   }
 
   @Get()
-  public async getProducts() {
-    return this.productsService.getProducts();
+  public async getProducts(@Query() productsFilter: ProductsFilterDto) {
+    return this.productsService.getProducts(productsFilter);
   }
 
   @UseGuards(AdminGuard)
