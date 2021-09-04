@@ -7,6 +7,7 @@ import { configService } from 'src/services/config/config.service';
 import { JwtStrategy } from 'src/strategies/jwt.strategy';
 import { CategoriesModule } from './categories/categories.module';
 import { BrandsModule } from './brands/brands.module';
+import { OrderModule } from './order/order.module';
 
 @Module({
   providers: [AuthService, JwtStrategy],
@@ -18,7 +19,8 @@ import { BrandsModule } from './brands/brands.module';
       signOptions: { expiresIn: 60 * 60 + 's' }
     }),
     CategoriesModule,
-    BrandsModule
+    BrandsModule,
+    OrderModule
   ]
 })
 export class AuthModule {}

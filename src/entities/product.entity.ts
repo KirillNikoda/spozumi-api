@@ -1,6 +1,13 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  ManyToMany,
+  ManyToOne,
+  PrimaryGeneratedColumn
+} from 'typeorm';
 import { Brand } from './brand.entity';
 import { Category } from './category.entity';
+import { Order } from './order.entity';
 
 @Entity({ name: 'products' })
 export class Product {
@@ -23,6 +30,9 @@ export class Product {
     onDelete: 'SET NULL'
   })
   category: Category;
+
+  @ManyToMany(() => Order, (order) => order.products)
+  orders: Product[];
 
   @ManyToOne(() => Brand, (brand) => brand.products, { onDelete: 'SET NULL' })
   brand: Brand;
