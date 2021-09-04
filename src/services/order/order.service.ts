@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CreateOrderDto } from 'src/dtos/createOrder.dto';
 import { Order } from 'src/entities/order.entity';
 import { Repository } from 'typeorm';
 
@@ -25,5 +26,9 @@ export class OrderService {
     }
 
     return order;
+  }
+
+  public async createOrder(order: CreateOrderDto): Promise<Order> {
+    return await this.orderRepository.save(order);
   }
 }

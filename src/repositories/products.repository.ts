@@ -5,8 +5,6 @@ import { EntityRepository, Repository } from 'typeorm';
 @EntityRepository(Product)
 export class ProductsRepository extends Repository<Product> {
   public async getProducts(filterDto: ProductsFilterDto): Promise<Product[]> {
-    console.log(filterDto);
-
     const { category, brand, color, price } = filterDto;
     const query = this.createQueryBuilder('product');
 
